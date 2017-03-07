@@ -1,6 +1,8 @@
 package com.microservice.rental.model;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -20,6 +22,16 @@ public class Customer {
     private String email;
 
     private boolean active;
+
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @ManyToOne
+    @JoinColumn(name="address_id")
+    private Address address;
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="customer")
+    private List<Rental> rentals;
 
 
     public long getCustomerId() {
@@ -60,5 +72,29 @@ public class Customer {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 }
